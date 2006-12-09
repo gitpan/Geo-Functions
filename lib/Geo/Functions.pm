@@ -25,8 +25,8 @@ Function naming convention is "format of the return" underscore "format of the p
 use strict;
 use vars qw($VERSION $PACKAGE @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
 @ISA = qw(Exporter);
-@EXPORT_OK = (qw{deg_rad rad_deg deg_dms round});
-$VERSION = sprintf("%d.%02d", q{Revision: 0.02} =~ /(\d+)\.(\d+)/);
+@EXPORT_OK = (qw{deg_rad rad_deg deg_dms rad_dms round});
+$VERSION = sprintf("%d.%02d", q{Revision: 0.03} =~ /(\d+)\.(\d+)/);
 use Geo::Constants qw{RAD DEG};
 
 =head1 CONSTRUCTOR
@@ -88,7 +88,7 @@ Degrees given radians.
 sub deg_rad {
   my $self=shift();
   my $rad=ref($self) ? shift() : $self;
-  return $rad*DEG;
+  return $rad*DEG();
 }
 
 =head2 rad_deg
@@ -102,7 +102,19 @@ Radians given degrees.
 sub rad_deg {
   my $self=shift();
   my $deg=ref($self) ? shift() : $self;
-  return $deg*RAD;
+  return $deg*RAD();
+}
+
+=head2 rad_dms
+
+Radians given degrees minutes seconds.
+
+  my $rad=rad_dms(45 30 20.0);
+
+=cut
+
+sub rad_dms {
+  return rad_deg(deg_dms(@_));
 }
 
 =head2 round

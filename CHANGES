@@ -1,2 +1,7 @@
+2006-12-08 v0.03
+  * Added () for imported Geo::Constants as some systems don't like barewords
+  * Added rad_dms method
+2006-12-05 v0.02
+  * Documentation
 2006-12-02 v0.01
   * Original version

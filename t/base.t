@@ -38,7 +38,7 @@ BEGIN {
     }
 }
 
-BEGIN { plan tests => 28 }
+BEGIN { plan tests => 31 }
 
 # just check that all modules can be compiled
 ok(eval {require Geo::Functions; 1}, 1, $@);
@@ -48,9 +48,11 @@ ok(ref $o, "Geo::Functions");
 
 ok ($o->deg_rad(atan2(1,1)), 45);
 ok ($o->deg_dms(40,42,46.5,"N"), 40+(42+46.5/60)/60);
+ok ($o->rad_dms(40,42,46.5,"N"), $o->rad_deg(40+(42+46.5/60)/60));
 ok ($o->rad_deg(45), atan2(1,1));
+ok ($o->round(45.9), 46);
 
-use Geo::Functions qw{deg_rad deg_dms rad_deg round};
+use Geo::Functions qw{deg_rad deg_dms rad_deg round rad_dms};
 
 ok (deg_rad(atan2(1,1)), 45);
 ok (deg_dms(40,42,46.5,"s"), -1*(40+(42+46.5/60)/60));
@@ -75,3 +77,4 @@ ok (round(5.6), 6);
 ok (round(-5.1), -5);
 ok (round(-5.5), -6);
 ok (round(-5.6), -6);
+ok (rad_dms(55, 34, 76, "N"), rad_deg(deg_dms(55, 34, 76, "N")));
