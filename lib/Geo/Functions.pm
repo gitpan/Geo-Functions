@@ -3,7 +3,7 @@ package Geo::Functions;
 
 =head1 NAME
 
-Geo::Functions - Perl package for standard Geo:: functions
+Geo::Functions - Package for standard Geo:: functions.
 
 =head1 SYNOPSIS
 
@@ -26,7 +26,7 @@ use strict;
 use vars qw($VERSION $PACKAGE @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
 @ISA = qw(Exporter);
 @EXPORT_OK = (qw{deg_rad rad_deg deg_dms rad_dms round});
-$VERSION = sprintf("%d.%02d", q{Revision: 0.03} =~ /(\d+)\.(\d+)/);
+$VERSION = sprintf("%d.%02d", q{Revision: 0.04} =~ /(\d+)\.(\d+)/);
 use Geo::Constants qw{RAD DEG};
 
 =head1 CONSTRUCTOR
@@ -138,6 +138,8 @@ __END__
 =head1 TODO
 
 =head1 BUGS
+
+Please send to the geo-perl email list.
 
 =head1 LIMITS
 
