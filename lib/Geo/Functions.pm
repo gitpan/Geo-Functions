@@ -25,8 +25,8 @@ Function naming convention is "format of the return" underscore "format of the p
 use strict;
 use vars qw($VERSION $PACKAGE @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
 @ISA = qw(Exporter);
-@EXPORT_OK = (qw{deg_rad rad_deg deg_dms rad_dms round});
-$VERSION = sprintf("%d.%02d", q{Revision: 0.04} =~ /(\d+)\.(\d+)/);
+@EXPORT_OK = (qw{deg_rad rad_deg deg_dms rad_dms dms_deg dm_deg round});
+$VERSION = sprintf("%d.%02d", q{Revision: 0.05} =~ /(\d+)\.(\d+)/);
 use Geo::Constants qw{RAD DEG};
 
 =head1 CONSTRUCTOR
@@ -129,6 +129,49 @@ sub round {
   my $self=shift();
   my $number=ref($self) ? shift() : $self;
   return int($number + 0.5 * ($number <=> 0));
+}
+
+=head2 dms_deg
+
+Degrees minutes seconds given degrees.
+
+  my ($d, $m, $s, $sign)=dms_deg($degrees, qw{N S});
+  my ($d, $m, $s, $sign)=dms_deg($degrees, qw{E W});
+
+=cut
+
+sub dms_deg {
+  my $self=shift();
+  my $number=ref($self) ? shift() : $self;
+  my @sign=@_;
+  my $sign=$number >= 0 ? $sign[0]||1 : $sign[1]||-1;
+  $number=abs($number);
+  my $d=int($number);
+  my $m=int(($number-$d) * 60);
+  my $s=((($number-$d) * 60) - $m) * 60;
+  my @dms=($d, $m, $s, $sign);
+  return wantarray ? @dms : join(" ", @dms);
+}
+
+=head2 dm_deg
+
+Degrees minutes given degrees.
+
+  my ($d, $m, $sign)=dm_deg($degrees, qw{N S});
+  my ($d, $m, $sign)=dm_deg($degrees, qw{E W});
+
+=cut
+
+sub dm_deg {
+  my $self=shift();
+  my $number=ref($self) ? shift() : $self;
+  my @sign=@_;
+  my $sign=$number >= 0 ? $sign[0]||1 : $sign[1]||-1;
+  $number=abs($number);
+  my $d=int($number);
+  my $m=($number-$d) * 60;
+  my @dm=($d, $m, $sign);
+  return wantarray ? @dm : join(" ", @dm);
 }
 
 1;

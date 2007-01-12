@@ -38,7 +38,7 @@ BEGIN {
     }
 }
 
-BEGIN { plan tests => 31 }
+BEGIN { plan tests => 2231 }
 
 # just check that all modules can be compiled
 ok(eval {require Geo::Functions; 1}, 1, $@);
@@ -52,7 +52,7 @@ ok ($o->rad_dms(40,42,46.5,"N"), $o->rad_deg(40+(42+46.5/60)/60));
 ok ($o->rad_deg(45), atan2(1,1));
 ok ($o->round(45.9), 46);
 
-use Geo::Functions qw{deg_rad deg_dms rad_deg round rad_dms};
+use Geo::Functions qw{deg_rad deg_dms rad_deg round rad_dms dms_deg dm_deg};
 
 ok (deg_rad(atan2(1,1)), 45);
 ok (deg_dms(40,42,46.5,"s"), -1*(40+(42+46.5/60)/60));
@@ -78,3 +78,27 @@ ok (round(-5.1), -5);
 ok (round(-5.5), -6);
 ok (round(-5.6), -6);
 ok (rad_dms(55, 34, 76, "N"), rad_deg(deg_dms(55, 34, 76, "N")));
+foreach my $d1 (0,5,15,67,88) {
+  foreach my $m1 (0,3,43,57) {
+    foreach my $s1 (5,15,34,45,56) {
+      foreach my $sign1 (qw{N S}) {
+        my ($d2,$m2,$s2,$sign2)=dms_deg(deg_dms($d1,$m1,$s1,$sign1), qw{N S});
+        my ($d3,$m3,$sign3)=dm_deg(deg_dms($d1,$m1,$s1,$sign1), qw{N S});
+        ok ($d1, $d2);
+        ok ($m1, $m2);
+        ok (near $s1, $s2);
+        ok ($sign1, $sign2);
+        ok ($d1, $d3);
+        ok (near $m1+$s1/60, $m3);
+        ok ($sign1, $sign3);
+      }
+      foreach my $sign1 (qw{E W}) {
+        my ($d2,$m2,$s2,$sign2)=dms_deg(deg_dms($d1,$m1,$s1,$sign1), qw{E W});
+        ok ($d1, $d2);
+        ok ($m1, $m2);
+        ok (near $s1, $s2);
+        ok ($sign1, $sign2);
+      }
+    }
+  }
+}
