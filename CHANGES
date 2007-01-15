@@ -1,3 +1,5 @@
+2006-01-15 v0.06
+  * Added mps_knots and knots_mps functions
 2006-01-12 v0.05
   * Added methods dms_deg and dm_deg 
 2006-12-09 v0.04

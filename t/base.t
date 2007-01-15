@@ -6,7 +6,7 @@
 # Author: Michael R. Davis
 #
 
-=head1 Test Examples
+=head1 NAME
 
 base.t - Good examples concerning how to use this module
 
@@ -38,7 +38,7 @@ BEGIN {
     }
 }
 
-BEGIN { plan tests => 2231 }
+BEGIN { plan tests => 2239 }
 
 # just check that all modules can be compiled
 ok(eval {require Geo::Functions; 1}, 1, $@);
@@ -51,8 +51,11 @@ ok ($o->deg_dms(40,42,46.5,"N"), 40+(42+46.5/60)/60);
 ok ($o->rad_dms(40,42,46.5,"N"), $o->rad_deg(40+(42+46.5/60)/60));
 ok ($o->rad_deg(45), atan2(1,1));
 ok ($o->round(45.9), 46);
+foreach (qw{5 10 25 50}) {
+  ok($_, $o->mps_knots($o->knots_mps($_)));
+}
 
-use Geo::Functions qw{deg_rad deg_dms rad_deg round rad_dms dms_deg dm_deg};
+use Geo::Functions qw{deg_rad deg_dms rad_deg round rad_dms dms_deg dm_deg mps_knots knots_mps};
 
 ok (deg_rad(atan2(1,1)), 45);
 ok (deg_dms(40,42,46.5,"s"), -1*(40+(42+46.5/60)/60));
@@ -101,4 +104,7 @@ foreach my $d1 (0,5,15,67,88) {
       }
     }
   }
+}
+foreach (qw{5 10 25 50}) {
+  ok($_, mps_knots(knots_mps($_)));
 }

@@ -25,9 +25,9 @@ Function naming convention is "format of the return" underscore "format of the p
 use strict;
 use vars qw($VERSION $PACKAGE @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
 @ISA = qw(Exporter);
-@EXPORT_OK = (qw{deg_rad rad_deg deg_dms rad_dms dms_deg dm_deg round});
-$VERSION = sprintf("%d.%02d", q{Revision: 0.05} =~ /(\d+)\.(\d+)/);
-use Geo::Constants qw{RAD DEG};
+@EXPORT_OK = (qw{deg_rad rad_deg deg_dms rad_dms dms_deg dm_deg round mps_knots knots_mps});
+$VERSION = sprintf("%d.%02d", q{Revision: 0.06} =~ /(\d+)\.(\d+)/);
+use Geo::Constants qw{RAD DEG KNOTS};
 
 =head1 CONSTRUCTOR
 
@@ -172,6 +172,34 @@ sub dm_deg {
   my $m=($number-$d) * 60;
   my @dm=($d, $m, $sign);
   return wantarray ? @dm : join(" ", @dm);
+}
+
+=head2 mps_knots
+
+meters per second given knots
+
+  my $mps=mps_knots(50.0);
+
+=cut
+
+sub mps_knots {
+  my $self=shift();
+  my $number=ref($self) ? shift() : $self;
+  return $number * KNOTS();
+}
+
+=head2 knots_mps
+
+knots given meters per second
+
+  my $knots=knots_mps(25.0);
+
+=cut
+
+sub knots_mps {
+  my $self=shift();
+  my $number=ref($self) ? shift() : $self;
+  return $number / KNOTS();
 }
 
 1;
