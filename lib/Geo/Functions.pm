@@ -26,7 +26,7 @@ use strict;
 use vars qw($VERSION $PACKAGE @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
 @ISA = qw(Exporter);
 @EXPORT_OK = (qw{deg_rad rad_deg deg_dms rad_dms dms_deg dm_deg round mps_knots knots_mps});
-$VERSION = sprintf("%d.%02d", q{Revision: 0.06} =~ /(\d+)\.(\d+)/);
+$VERSION = sprintf("%d.%02d", q{Revision: 0.07} =~ /(\d+)\.(\d+)/);
 use Geo::Constants qw{RAD DEG KNOTS};
 
 =head1 CONSTRUCTOR
@@ -227,5 +227,5 @@ it under the same terms as Perl itself.
 
 =head1 SEE ALSO
 
-Geo::Functions
+Geo::Constants
 Geo::Ellipsoids
